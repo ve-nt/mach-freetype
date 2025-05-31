@@ -322,10 +322,8 @@ pub const Bitmap = struct {
         try intToError(c.FT_Bitmap_Embolden(lib.handle, &self.handle, x_strength, y_strength));
     }
 
-    pub fn convert(self: Bitmap, lib: Library, alignment: u29) Error!Bitmap {
-        var b: c.FT_Bitmap = undefined;
-        try intToError(c.FT_Bitmap_Convert(lib.handle, &self.handle, &b, alignment));
-        return Bitmap{ .handle = b };
+    pub fn convert(self: Bitmap, lib: Library, target: *Bitmap, alignment: u29) Error!void {
+        try intToError(c.FT_Bitmap_Convert(lib.handle, &self.handle, &target.handle, alignment));
     }
 
     pub fn blend(self: *Bitmap, lib: Library, source_offset: Vector, target_offset: *Vector, color: Color) Error!void {
